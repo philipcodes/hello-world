@@ -3,11 +3,6 @@ include "config.php";
 ?>
 
 <!DOCTYPE html>
-<html>
-
-<head>
-    <title>My Upload Site</title>
-</head>
 
 <?php
 include("config.php");
@@ -35,8 +30,8 @@ if(isset($_POST['but_upload'])){
      move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
 
     //  Check the file uploaded
-    if (file_exists("uploads/" . $_FILES["file"]["name"])){
-         echo $target_file= $_FILES["file"]["name"] . " exists. Hash: " ;
+    if (file_exists("uploads/" . $name)){
+         echo $target_file= $name . " exists. Hash: " ;
         
         // Hash the file
         $var = hash_file('sha256', 'uploads/' . $name);
@@ -51,8 +46,14 @@ if(isset($_POST['but_upload'])){
 ?>
 
 
-<body>
 
+<html>
+
+<head>
+    <title>My Upload Site</title>
+</head>
+
+<body>
     <form method="post" action="" enctype="multipart/form-data">
         <input type="file" name="file">
         <input type="submit" name="but_upload" value="Upload">
