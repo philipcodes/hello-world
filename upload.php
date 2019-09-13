@@ -1,17 +1,13 @@
-<?php
-include "config.php";
-?>
-
 <!DOCTYPE html>
 
 <?php
 include("config.php");
 
-if(isset($_POST['but_upload'])){
+if(isset($_POST['button'])){
  
   $name = $_FILES['file']['name'];
   $target_dir = "uploads/";
-  $target_file = $target_dir . basename($_FILES["file"]["name"]);
+  $target_file = $target_dir . basename($name);
 
   // Select file type
   $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -22,30 +18,27 @@ if(isset($_POST['but_upload'])){
   // Check extension
   if(in_array($imageFileType,$extensions_arr) ){
  
-     // Insert record
-     $query = "insert into uploads(name) values('".$name."')";
-     mysqli_query($con,$query);
-  
-     // Upload file
-     move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
+    // Upload file
+    move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
 
     //  Check the file uploaded
     if (file_exists("uploads/" . $name)){
          echo $target_file= $name . " exists. Hash: " ;
         
-        // Hash the file
-        $var = hash_file('sha256', 'uploads/' . $name);
-         echo $var;
+    // Hash the file
+    $var = hash_file('sha256', 'uploads/' . $name);
+    echo $var;
+        
+    $query = "INSERT INTO uploads(name, hash_file) VALUES('".$name."', '".$var."')";
+    mysqli_query($con,$query);
 
-     } 
+    } 
       
   }
  
 }
     
 ?>
-
-
 
 <html>
 
@@ -56,7 +49,7 @@ if(isset($_POST['but_upload'])){
 <body>
     <form method="post" action="" enctype="multipart/form-data">
         <input type="file" name="file">
-        <input type="submit" name="but_upload" value="Upload">
+        <input type="submit" name="button" value="Upload">
     </form>
 
 </body>
