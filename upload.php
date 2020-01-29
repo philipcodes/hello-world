@@ -7,7 +7,7 @@ session_start();
 <?php
 include("link.php");
 include("login.php");
-if($_SESSION["favcolor"]) {
+if($_SESSION["user"]) {
 if(isset($_POST['button'])) {
  
 $name = $_FILES['file']['name'];
