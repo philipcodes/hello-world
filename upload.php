@@ -1,8 +1,13 @@
+<?php
+// Start the session
+session_start();
+?>
 <!DOCTYPE html>
 
 <?php
 include("link.php");
-
+include("login.php");
+if($_SESSION["user"]) {
 if(isset($_POST['button'])) {
  
 $name = $_FILES['file']['name'];
@@ -65,3 +70,8 @@ $extensions_arr = array("jpg","jpeg","png","gif", "mp4", "pdf");
 </body>
 
 </html>
+<?php
+} else {
+  echo $loginPage;
+}
+?>
